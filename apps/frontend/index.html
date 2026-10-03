@@ -1,13 +1,671 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TS-CRM - Your customers. Your conversations. All in one place.</title>
+    <!-- Google Fonts: Inter and Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="../frontend/src/style.css">
+</head>
+<body>
+
+    <!-- ==========================================
+         HEADER / NAVBAR SECTION
+         ========================================== -->
+    <header class="header" id="header">
+        <div class="container navbar">
+            <!-- Brand Logo -->
+            <!-- LINK: Home Page -->
+            <a href="index.html" class="logo">
+                <span class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="24" height="24" rx="6" fill="#253880"/>
+                        <path d="M7 12L10 15L17 8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span class="logo-text">TS-CRM</span>
+            </a>
+
+            <!-- Collapsible Navigation Container -->
+            <div class="nav-collapse" id="navCollapse">
+                <!-- Navigation Links -->
+                <nav class="nav-links">
+                    <!-- LINK: Home Page (Current Page) -->
+                    <a href="index.html" class="nav-item active">Home</a>
+                    
+                    <!-- LINK: About View (Triggers hidden #about modal/section) -->
+                    <a href="#about" class="nav-item" id="navAbout">About</a>
+                    
+                    <!-- LINK: Features Section (Anchors to #problem section) -->
+                    <a href="#problem" class="nav-item">Features</a>
+                    
+                    <!-- LINK: Pricing Section (Anchors to #pricing section) -->
+                    <a href="#pricing" class="nav-item">Pricing</a>
+                </nav>
+
+                <!-- Navigation Action Buttons -->
+                <div class="nav-actions">
+                    <!-- LINK: Sign In Modal (Triggers hidden #login modal) -->
+                    <a href="#login" class="btn-text">Sign In</a>
+                    
+                    <!-- LINK: Free Trial Modal (Triggers hidden #register modal) -->
+                    <a href="#register" class="btn-primary">Start Free Trial</a>
+                </div>
+            </div>
+
+            <!-- Mobile Hamburger Toggle Button -->
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation Menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         HERO SECTION
+         ========================================== -->
+    <section class="hero-section" id="hero">
+        <div class="container hero-container">
+            <!-- Left Hero Content -->
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Your customers. <br>
+                    Your conversations. <br>
+                    <span class="text-blue">All in one place.</span>
+                </h1>
+                <p class="hero-description">
+                    All in one place. Keep customer information, interactions, and follow-ups organized without relying on scattered notebooks, spreadsheets, phone contacts, or WhatsApp messages.
+                </p>
+                <div class="hero-buttons">
+                    <!-- LINK: Get Started / Registration Modal -->
+                    <a href="#register" class="btn-primary btn-large">Get Started Today</a>
+                    
+                    <!-- LINK: Request Demo Modal -->
+                    <a href="#demo" class="btn-secondary btn-large">
+                        <span class="play-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </span>
+                        Request Demo
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Hero Image / Mockup Dashboard -->
+            <div class="hero-image-wrapper">
+                <div class="dashboard-mockup">
+                    <!-- Top Window Bar -->
+                    <div class="mockup-header">
+                        <div class="window-dots">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                        </div>
+                        <div class="mockup-search">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Stats Row -->
+                    <div class="mockup-stats">
+                        <div class="stat-card">
+                            <span class="stat-label">ACTIVE USERS</span>
+                            <div class="stat-value">1,284</div>
+                            <span class="badge badge-green">+12.5%</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">CONVERSION</span>
+                            <div class="stat-value">24.8%</div>
+                            <span class="badge badge-orange">+2.1%</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">PIPELINE</span>
+                            <div class="stat-value">$4.2M</div>
+                            <span class="badge badge-blue">Active</span>
+                        </div>
+                    </div>
+
+                    <!-- Recent Interactions List -->
+                    <div class="mockup-interactions">
+                        <div class="interactions-header">
+                            <span>RECENT INTERACTIONS</span>
+                            <span class="minus-icon">&minus;</span>
+                        </div>
+                        <div class="interaction-item">
+                            <div class="user-info">
+                                <div class="avatar avatar-blue">JD</div>
+                                <span class="user-name">Jane Doe &ndash; Acme Corp</span>
+                            </div>
+                            <span class="status-badge status-green">QUALIFIED</span>
+                        </div>
+                        <div class="interaction-item">
+                            <div class="user-info">
+                                <div class="avatar avatar-orange">JS</div>
+                                <span class="user-name">John Smith &ndash; Global Tech</span>
+                            </div>
+                            <span class="status-badge status-orange">NEGOTIATION</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Sync Notification Badge -->
+                <div class="floating-badge">
+                    <div class="badge-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                    <div class="badge-text">
+                        <strong>Pipeline Synced</strong>
+                        <p>Real-time updates active</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PROBLEM & SOLUTION SECTION ("Tame the Chaos")
+         ========================================== -->
+    <section class="problem-section" id="problem">
+        <div class="container problem-container">
+            <!-- Left Side: Section Intro & Solution Box -->
+            <div class="problem-left">
+                <h2 class="section-title">Tame the <span class="text-danger">Chaos</span></h2>
+                <p class="section-text">
+                    As your business grows, customer information can end up everywhere (in notebooks, spreadsheets, phone contacts, emails, and WhatsApp conversations). That makes it easy to lose track of conversations and forget when you need to follow up.
+                </p>
+
+                <!-- Solution Dark Box -->
+                <div class="solution-card">
+                    <h3 class="solution-title">The Solution: TS-CRM brings it together.</h3>
+                    <p class="solution-text">
+                        TS-CRM is the single source of truth for your small business customer management.
+                    </p>
+                    <div class="trusted-box">
+                        <div class="avatar-stack">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="User Avatar 1" class="avatar-img">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" alt="User Avatar 2" class="avatar-img">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" alt="User Avatar 3" class="avatar-img">
+                        </div>
+                        <span class="trusted-text">Trusted by 2,000+ business owners</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Problem Cards List -->
+            <div class="problem-right">
+                <!-- Problem Card 1 -->
+                <div class="feature-card">
+                    <div class="card-icon icon-red">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Scattered information</h4>
+                        <p class="card-description">Customer details live across different places, making it hard to find what you need.</p>
+                    </div>
+                </div>
+
+                <!-- Problem Card 2 -->
+                <div class="feature-card">
+                    <div class="card-icon icon-red">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Missed follow-ups</h4>
+                        <p class="card-description">Important customers can slip through the cracks without a central reminder system.</p>
+                    </div>
+                </div>
+
+                <!-- Problem Card 3 -->
+                <div class="feature-card">
+                    <div class="card-icon icon-red">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Lost context</h4>
+                        <p class="card-description">It becomes difficult to remember what was discussed and when as your client list grows.</p>
+                    </div>
+                </div>
+
+                <!-- Solution Card Highlighted (Card 4) -->
+                <div class="feature-card card-highlight">
+                    <div class="card-icon icon-blue">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title text-navy">One organized workspace</h4>
+                        <p class="card-description">Keep your customers, interactions, and follow-ups together in one beautiful view.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         WORKFLOW / STEPS SECTION
+         ========================================== -->
+    <section class="steps-section" id="workflow">
+        <div class="container">
+            <div class="steps-header">
+                <h2 class="steps-title">From scattered information to <br> organized relationships.</h2>
+                <p class="steps-subtitle">A simple workflow designed for efficiency.</p>
+            </div>
+
+            <!-- Grid of 4 Workflow Steps -->
+            <div class="steps-grid">
+                <!-- Step 01 -->
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <h3 class="step-card-title">Add your customers</h3>
+                    <p class="step-card-text">Create a customer record with contact and business info in seconds.</p>
+                </div>
+
+                <!-- Step 02 -->
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <h3 class="step-card-title">Record interactions</h3>
+                    <p class="step-card-text">Keep conversations and notes attached to the right customer profile.</p>
+                </div>
+
+                <!-- Step 03 -->
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <h3 class="step-card-title">Create follow-ups</h3>
+                    <p class="step-card-text">Set a follow-up and due date to ensure you never miss a vital deal.</p>
+                </div>
+
+                <!-- Step 04 -->
+                <div class="step-card">
+                    <div class="step-number">04</div>
+                    <h3 class="step-card-title">Stay on top</h3>
+                    <p class="step-card-text">Use your dashboard to see exactly what needs your attention today.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PRICING SECTION (Added Info Section)
+         ========================================== -->
+    <section class="pricing-section" id="pricing">
+        <div class="container">
+            <div class="pricing-header">
+                <h2 class="section-title">Simple, Transparent <span class="text-blue">Pricing</span></h2>
+                <p class="section-text">Choose the plan that fits your growing small business needs.</p>
+            </div>
+            <div class="pricing-grid">
+                <!-- Starter Plan -->
+                <div class="price-card">
+                    <h3 class="price-title">Starter</h3>
+                    <div class="price-amount">$0<span>/month</span></div>
+                    <p class="price-desc">Perfect for solo entrepreneurs testing TS-CRM.</p>
+                    <ul class="price-features">
+                        <li>Up to 100 Contacts</li>
+                        <li>Basic Interactions Log</li>
+                        <li>Email Reminders</li>
+                    </ul>
+                    <a href="#register" class="btn-secondary">Start Free</a>
+                </div>
+                <!-- Growth Plan (Featured) -->
+                <div class="price-card price-featured">
+                    <div class="popular-badge">MOST POPULAR</div>
+                    <h3 class="price-title">Growth</h3>
+                    <div class="price-amount">$19<span>/month</span></div>
+                    <p class="price-desc">Ideal for small teams scaling customer management.</p>
+                    <ul class="price-features">
+                        <li>Unlimited Contacts</li>
+                        <li>Full Interaction History</li>
+                        <li>Pipeline Real-Time Sync</li>
+                        <li>Priority Support</li>
+                    </ul>
+                    <a href="#register" class="btn-primary">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         CALL TO ACTION (CTA) BANNER SECTION
+         ========================================== -->
+    <section class="cta-section" id="cta">
+        <div class="container">
+            <div class="cta-banner">
+                <!-- Background Graphic Watermark -->
+                <div class="cta-watermark">
+                    <svg width="140" height="100" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+
+                <h2 class="cta-title">Ready to get your customer <br> relationships organized?</h2>
+                <p class="cta-text">Join thousands of small business owners who are growing faster with CRM Core. No credit card required.</p>
+                <div class="cta-buttons">
+                    <!-- LINK: Registration Modal -->
+                    <a href="#register" class="btn-white">Get Started Free</a>
+                    
+                    <!-- LINK: Contact Modal -->
+                    <a href="#contact" class="btn-translucent">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         FOOTER SECTION
+         ========================================== -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-top">
+                <!-- Column 1: Brand Info & Socials -->
+                <div class="footer-col footer-brand">
+                    <!-- LINK: Home Page -->
+                    <a href="index.html" class="logo">
+                        <span class="logo-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="24" height="24" rx="6" fill="#253880"/>
+                                <path d="M7 12L10 15L17 8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                        <span class="logo-text">TS-CRM</span>
+                    </a>
+                    <p class="footer-description">
+                        The simple, no-nonsense CRM built specifically for growing small businesses who value their customer relationships.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                        </a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Column 2: Product Links -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">PRODUCT</h4>
+                    <ul class="footer-links">
+                        <li><a href="#problem">Features</a></li>
+                        <li><a href="#workflow">How It Works</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#integrations">Integrations</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Company Links -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">COMPANY</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Newsletter Subscription -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">NEWSLETTER</h4>
+                    <p class="newsletter-text">Get enterprise growth insights.</p>
+                    <form class="newsletter-form" action="#" method="POST">
+                        <input type="email" class="newsletter-input" placeholder="Work email" required>
+                        <button type="submit" class="newsletter-btn" aria-label="Subscribe">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 18 15 12 9 6"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Footer Bottom / Legal & Copyright -->
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2026 TS-CRM SOLUTIONS</p>
+                <div class="legal-links">
+                    <a href="#privacy">PRIVACY POLICY</a>
+                    <a href="#terms">TERMS OF SERVICE</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ==========================================
+         HIDDEN #ABOUT PAGE / MODAL SECTION
+         ========================================== -->
+    <div class="modal-overlay" id="about">
+        <div class="modal-box">
+            <a href="#" class="modal-close" aria-label="Close">&times;</a>
+            <div class="modal-header">
+                <span class="badge badge-blue">CAPSTONE PROJECT</span>
+                <h2 class="modal-title">About <span class="text-blue">TS-CRM</span></h2>
+            </div>
+            <div class="modal-body">
+                <p><strong>TS-CRM</strong> is a lightweight, intuitive Customer Relationship Management system built specifically for small businesses. Designed to help business owners eliminate scattered notebooks, lost messages, and missed client follow-ups.</p>
+                
+                <h4 class="modal-subtitle">Core Objectives:</h4>
+                <ul class="modal-list">
+                    <li><strong>Single Source of Truth:</strong> Consolidate customer contact records into one clean view.</li>
+                    <li><strong>Interaction History:</strong> Log notes and client conversations effortlessly.</li>
+                    <li><strong>Follow-up Reminders:</strong> Ensure vital deals and client check-ins are never forgotten.</li>
+                </ul>
+                <div class="modal-footer-note">
+                    <p><em>Built as part of a final capstone web application project.</em></p>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <a href="#" class="btn-primary">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         HIDDEN #LOGIN MODAL SECTION
+         ========================================== -->
+    <div class="modal-overlay" id="login">
+        <div class="modal-box modal-box-sm">
+            <a href="#" class="modal-close" aria-label="Close">&times;</a>
+            <div class="modal-header">
+                <h2 class="modal-title">Sign In to <span class="text-blue">TS-CRM</span></h2>
+                <p class="modal-desc">Enter your account credentials to access your dashboard.</p>
+            </div>
+            <form class="modal-form" onsubmit="event.preventDefault(); window.location.href='dashboard.html';">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" placeholder="name@company.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Sign In to Dashboard</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         HIDDEN #REGISTER MODAL SECTION
+         ========================================== -->
+    <div class="modal-overlay" id="register">
+        <div class="modal-box modal-box-sm">
+            <a href="#" class="modal-close" aria-label="Close">&times;</a>
+            <div class="modal-header">
+                <h2 class="modal-title">Start Your <span class="text-blue">Free Trial</span></h2>
+                <p class="modal-desc">No credit card required. Get full access in seconds.</p>
+            </div>
+            <form class="modal-form" onsubmit="event.preventDefault(); window.location.href='dashboard.html';">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Work Email</label>
+                    <input type="email" class="form-input" placeholder="john@company.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="Create password" required>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Create Free Account</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         HIDDEN #DEMO & #CONTACT MODAL SECTION
+         ========================================== -->
+    <div class="modal-overlay" id="demo">
+        <div class="modal-box modal-box-sm">
+            <a href="#" class="modal-close" aria-label="Close">&times;</a>
+            <div class="modal-header">
+                <h2 class="modal-title">Request a <span class="text-blue">Live Demo</span></h2>
+                <p class="modal-desc">See how TS-CRM can transform your client workflows.</p>
+            </div>
+            <form class="modal-form" onsubmit="event.preventDefault(); this.innerHTML = '<div style=\'text-align:center; padding: 20px 0; color: var(--color-success-green); font-weight: 600;\'>✓ Demo request received! Our team will contact you shortly.</div>';">
+                <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" class="form-input" placeholder="Alex Morgan" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Business Phone / Email</label>
+                    <input type="text" class="form-input" placeholder="Phone or email" required>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Request Demo</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="contact">
+        <div class="modal-box modal-box-sm">
+            <a href="#" class="modal-close" aria-label="Close">&times;</a>
+            <div class="modal-header">
+                <h2 class="modal-title">Contact <span class="text-blue">Sales</span></h2>
+                <p class="modal-desc">Have questions? Our capstone support team is ready to help.</p>
+            </div>
+            <form class="modal-form" onsubmit="event.preventDefault(); this.innerHTML = '<div style=\'text-align:center; padding: 20px 0; color: var(--color-success-green); font-weight: 600;\'>✓ Message sent! We will reply to your email within 24 hours.</div>';">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" placeholder="you@company.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-input" rows="3" placeholder="How can we help?" required></textarea>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Toggle JavaScript -->
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navCollapse = document.getElementById('navCollapse');
+
+        if (menuToggle && navCollapse) {
+            menuToggle.addEventListener('click', () => {
+                navCollapse.classList.toggle('mobile-open');
+                menuToggle.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking any nav link
+            document.querySelectorAll('#navCollapse a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navCollapse.classList.remove('mobile-open');
+                    menuToggle.classList.remove('active');
+                });
+            });
+        }
+    </script>
+
+    <!-- =========================================================================
+         DOCUMENTATION INDEX: CLASSES AND IDS SPECIFIC FUNCTIONS & LINES LOCATIONS
+         =========================================================================
+         [HTML ELEMENT IDENTIFIERS]
+         -------------------------------------------------------------------------
+         ID / CLASS NAME        | SPECIFIC FUNCTION / PURPOSE                 | LINE NUMBER(S)
+         -------------------------------------------------------------------------
+         #header                | Main sticky header wrapper                  | Line 17
+         .header                | Header layout styling & background          | Line 17
+         .container             | Centered max-width content container        | Lines 18, 67, 172, 255, 298, 335, 364
+         .navbar                | Flexbox navigation bar layout               | Line 18
+         .logo                  | Logo container (icon + brand name)          | Lines 21, 369
+         .logo-icon             | Logo graphic icon wrapper                   | Lines 22, 370
+         .logo-text             | Brand name typography                       | Lines 28, 376
+         .nav-links             | Navigation menu wrapper                     | Line 32
+         .nav-item              | Navigation menu item link                   | Lines 34, 37, 40, 43
+         #navAbout              | Navigation About link trigger ID            | Line 37
+         .nav-actions           | Container for header action buttons         | Line 47
+         .btn-text              | Plain text button (Sign In)                 | Line 49
+         .btn-primary           | Main primary CTA button                     | Lines 52, 81, 319, 442, 467, 493, 516, 538
+         #menuToggle            | Mobile hamburger menu button ID             | Line 56
+         .menu-toggle           | Hamburger button trigger container          | Line 56
+         #hero                  | Hero section anchor wrapper                 | Line 66
+         .hero-section          | Top hero banner layout & padding            | Line 66
+         .hero-container        | Grid/Flex wrapper for hero left/right       | Line 67
+         .hero-content          | Left hero headline & text container         | Line 69
+         .hero-title            | Main hero headline text (Display 48px)      | Line 70
+         .text-blue             | Primary Blue text accent modifier class     | Line 73, 299, 423, 452, 478, 506, 528
+         .hero-description      | Subtitle description text (Body 16px)       | Line 75
+         .hero-buttons          | Flex container for hero CTA buttons         | Line 78
+         .btn-large             | Button size modifier class                  | Lines 81, 84
+         .btn-secondary         | Secondary outlined button                   | Lines 84, 316
+         .hero-image-wrapper    | Right hero dashboard mockup container       | Line 96
+         .dashboard-mockup      | Card component mimicking CRM UI interface   | Line 97
+         #problem               | Problem section anchor                      | Line 171
+         .problem-section       | Layout for problem/solution section         | Line 171
+         .problem-left          | Left column container for text & solution   | Line 174
+         .solution-card         | Neutral Dark solution highlight box          | Line 181
+         .problem-right         | Right column container for 4 feature cards  | Line 197
+         .feature-card          | White feature/pain-point card item          | Lines 199, 212, 225, 238
+         #workflow              | Workflow section anchor                     | Line 254
+         .steps-section         | Neutral Dark background 4-step section      | Line 254
+         .steps-grid            | 4-column grid for process step cards        | Line 262
+         #pricing               | Pricing info section anchor ID              | Line 296
+         .pricing-section       | Pricing plans layout section                | Line 296
+         .price-card            | Individual pricing plan card                | Lines 302, 311
+         .price-featured        | Featured pricing plan highlight border      | Line 311
+         #cta                   | Call-to-action banner anchor                | Line 333
+         .cta-section           | Wrapper section for CTA banner              | Line 333
+         #footer                | Footer section anchor                       | Line 362
+         .footer                | Footer section wrapper                      | Line 362
+         #about                 | Hidden About View / Modal overlay ID        | Line 418
+         .modal-overlay         | Modal background overlay container          | Lines 418, 448, 474, 502, 524
+         .modal-box             | Modal content box                           | Line 419
+         .modal-box-sm          | Small size modal modifier box               | Lines 449, 475, 503, 525
+         .modal-close           | Close button (&times;) for modal            | Lines 420, 450, 476, 504, 526
+         #login                 | Hidden Sign In Modal ID                     | Line 448
+         #register              | Hidden Registration Modal ID                | Line 474
+         #demo                  | Hidden Demo Request Modal ID                | Line 502
+         #contact               | Hidden Contact Sales Modal ID               | Line 524
+         ========================================================================= -->
+
+</body>
 </html>
