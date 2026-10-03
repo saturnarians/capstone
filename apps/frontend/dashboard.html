@@ -1,1 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Small Business CRM - Dashboard</title>
+    <!-- Google Fonts: Inter and Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Dashboard Stylesheet -->
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body class="dashboard-body">
+
+    <!-- ==========================================
+         FULL DASHBOARD LAYOUT (SIDEBAR + MAIN)
+         ========================================== -->
+    <div class="dash-layout">
+        
+        <!-- LEFT SIDEBAR NAVIGATION (Design System #06) -->
+        <aside class="dash-sidebar" id="dashSidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="24" height="24" rx="6" fill="#253880"/>
+                            <path d="M7 12L10 15L17 8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <span class="logo-text">TS-CRM</span>
+                </a>
+                <button class="sidebar-close-btn" onclick="toggleMobileSidebar()" aria-label="Close Navigation Sidebar">&times;</button>
+            </div>
+
+            <nav class="sidebar-menu">
+                <!-- VIEW SWITCHER LINKS -->
+                <button class="menu-item active" onclick="switchView('dashboardView', this)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    <span>Dashboard</span>
+                </button>
+                <button class="menu-item" onclick="switchView('customersView', this)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <span>Customers</span>
+                </button>
+                <button class="menu-item" onclick="switchView('interactionsView', this)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <span>Interactions</span>
+                </button>
+
+                <div class="menu-section-label">OPERATIONS</div>
+
+                <button class="menu-item" onclick="switchView('reportsView', this)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    <span>Reports</span>
+                </button>
+                <button class="menu-item" onclick="switchView('settingsView', this)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    <span>Settings</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-user-footer">
+                <div class="user-avatar" id="sidebarAvatar">--</div>
+                <div class="user-info">
+                    <strong class="user-name" id="sidebarUserName">Account User</strong>
+                    <span class="user-role">BUSINESS USER</span>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Mobile Sidebar Backdrop Overlay -->
+        <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleMobileSidebar()"></div>
+
+        <!-- RIGHT MAIN WORKSPACE -->
+        <main class="dash-main-content">
+            
+            <!-- TOP NAVBAR HEADER (Design System #06 Header) -->
+            <header class="dash-topbar">
+                <div class="topbar-left">
+                    <button class="dash-menu-toggle" id="dashMenuToggle" aria-label="Open Navigation Menu" onclick="toggleMobileSidebar()">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <line x1="3" y1="12" x2="21" y2="12"/>
+                            <line x1="3" y1="6" x2="21" y2="6"/>
+                            <line x1="3" y1="18" x2="21" y2="18"/>
+                        </svg>
+                    </button>
+                    <h1 class="topbar-title" id="pageTitle">Dashboard Overview</h1>
+                </div>
+                
+                <div class="topbar-search">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <input type="text" id="globalSearchInput" placeholder="Search customers or follow-ups..." onkeyup="handleSearchInput(this.value)">
+                </div>
+
+                <div class="topbar-right">
+                    <button class="icon-button notification-btn" title="Notifications">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                        </svg>
+                    </button>
+
+                    <div class="profile-chip">
+                        <div class="user-avatar-placeholder">U</div>
+                        <div class="profile-details">
+                            <span class="name" id="topbarUserName">Active User</span>
+                            <span class="role text-blue">ONLINE</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ===================================================================
+                 VIEW 1: DASHBOARD OVERVIEW (DEFAULT VIEW)
+                 =================================================================== -->
+            <div class="dash-view active" id="dashboardView">
+                
+                <!-- Performance Summary Bar & Action Buttons -->
+                <div class="action-header">
+                    <h2 class="section-heading">Performance Summary</h2>
+                    
+                    <div class="action-buttons-group">
+                        <button class="btn-primary" onclick="openModal('addCustomerModal')">
+                            + Add Customer
+                        </button>
+                        <button class="btn-dark" onclick="openModal('addFollowUpModal')">
+                            📅 Create Follow-up
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4 KPI Metric Summary Cards (Live Dynamic Counters) -->
+                <div class="kpi-cards-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-top">
+                            <div class="kpi-icon icon-blue-tint">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#253880" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                            </div>
+                            <span class="badge badge-green" id="kpiCustomerBadge">Live</span>
+                        </div>
+                        <span class="kpi-label">TOTAL CUSTOMERS</span>
+                        <div class="kpi-number" id="dashTotalCustomers">0</div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-top">
+                            <div class="kpi-icon icon-orange-tint">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B7791F" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </div>
+                            <span class="badge badge-orange" id="kpiFollowupBadge">Pending</span>
+                        </div>
+                        <span class="kpi-label">FOLLOW-UPS</span>
+                        <div class="kpi-number" id="dashFollowupsCount">0</div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-top">
+                            <div class="kpi-icon icon-blue-tint">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#253880" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            </div>
+                            <span class="badge badge-blue">Activity</span>
+                        </div>
+                        <span class="kpi-label">INTERACTIONS</span>
+                        <div class="kpi-number" id="dashInteractionsCount">0</div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-top">
+                            <div class="avatar-group-stack">
+                                <span class="avatar-more">CRM</span>
+                            </div>
+                        </div>
+                        <span class="kpi-label">SYSTEM STATUS</span>
+                        <div class="kpi-number" style="font-size: 1rem; margin-top: 6px;">Ready for Data</div>
+                    </div>
+                </div>
+
+                <!-- Main Content Grid (Recent Interactions Table + Follow-ups Panel) -->
+                <div class="dash-grid-layout">
+                    
+                    <!-- Left: Recent Interactions Card -->
+                    <div class="card-box">
+                        <div class="card-box-header">
+                            <h3 class="card-box-title">Recent Interactions</h3>
+                            <button class="btn-link" onclick="switchView('interactionsView')">VIEW ALL ACTIVITIES</button>
+                        </div>
+
+                        <!-- Dynamic Table / Empty State Container -->
+                        <div id="dashInteractionsContainer">
+                            <div class="table-responsive">
+                                <table class="crm-data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>CUSTOMER</th>
+                                            <th>TYPE</th>
+                                            <th>TIME</th>
+                                            <th>STATUS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dashInteractionsTableBody">
+                                        <!-- Dynamic Rows Inserted on Interaction -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="empty-state-mini" id="dashInteractionsEmpty">
+                                <p class="subtext">No interactions logged yet. Click "+ Log Interaction" to record customer activity.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Follow-ups Reminders Stack -->
+                    <div class="card-box">
+                        <div class="card-box-header">
+                            <h3 class="card-box-title">Follow-ups</h3>
+                            <button class="icon-button" onclick="openModal('addFollowUpModal')">⌛</button>
+                        </div>
+
+                        <div class="followups-stack" id="dashFollowupsList">
+                            <!-- Dynamic Follow-up Cards Inserted Here -->
+                        </div>
+                        
+                        <div class="empty-state-mini" id="dashFollowupsEmpty">
+                            <p class="subtext">No pending follow-ups. Click "+ ADD TASK" to create one.</p>
+                        </div>
+
+                        <button class="btn-dashed-add" onclick="openModal('addFollowUpModal')">
+                            + ADD TASK
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ===================================================================
+                 VIEW 2: CUSTOMERS MANAGEMENT VIEW
+                 =================================================================== -->
+            <div class="dash-view" id="customersView">
+                <div class="action-header">
+                    <div>
+                        <h2 class="section-heading">Customer Directory</h2>
+                        <p class="subtext">Manage customer records and information.</p>
+                    </div>
+                    
+                    <div class="action-buttons-group">
+                        <button class="btn-primary" onclick="openModal('addCustomerModal')">+ Add Customer</button>
+                    </div>
+                </div>
+
+                <!-- Customer Table Container -->
+                <div class="card-box" id="customerTableContainer">
+                    <div class="table-responsive">
+                        <table class="crm-data-table">
+                            <thead>
+                                <tr>
+                                    <th>CUSTOMER NAME</th>
+                                    <th>COMPANY</th>
+                                    <th>STATUS</th>
+                                    <th>CONTACT</th>
+                                    <th>ACTIONS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customersTableRows">
+                                <!-- Dynamic Customer Rows Inserted Here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Empty State Utility (Design System #08) -->
+                    <div class="empty-state-box" id="emptyStateBox">
+                        <div class="empty-icon-box">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <h3 class="empty-title">No Customers Found</h3>
+                        <p class="empty-text">Your database is currently empty. Start by adding your first business contact.</p>
+                        <button class="btn-primary" onclick="openModal('addCustomerModal')">+ Add Your First Customer</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================================================================
+                 VIEW 3: CUSTOMER DETAILS VIEW (Design System #06 Tabs & Profile)
+                 =================================================================== -->
+            <div class="dash-view" id="customerDetailsView">
+                
+                <div class="breadcrumbs">
+                    <span onclick="switchView('dashboardView')">DASHBOARD</span> &gt; 
+                    <span onclick="switchView('customersView')">CUSTOMER DIRECTORY</span> &gt; 
+                    <strong id="breadcrumbCustomer">PROFILE DETAILS</strong>
+                </div>
+
+                <div class="card-box customer-details-card">
+                    <div class="profile-header-flex">
+                        <div class="profile-main-info">
+                            <div class="avatar-large avatar-blue" id="detailAvatar">--</div>
+                            <div>
+                                <h2 class="profile-name" id="detailName">Select Customer</h2>
+                                <span class="profile-company" id="detailCompany">Company</span>
+                                <span class="badge badge-green" id="detailStatus">ACTIVE</span>
+                            </div>
+                        </div>
+
+                        <div class="profile-actions-group">
+                            <button class="btn-secondary" id="detailEditBtn" onclick="editCurrentCustomer()">✏️ Edit Customer</button>
+                            <button class="btn-primary" onclick="openModalForCurrentCustomer('addInteractionModal')">+ Log Interaction</button>
+                            <button class="btn-dark" onclick="openModalForCurrentCustomer('addFollowUpModal')">📅 Set Follow-up</button>
+                        </div>
+                    </div>
+
+                    <div class="contact-details-grid">
+                        <div>
+                            <span class="label">EMAIL ADDRESS</span>
+                            <p id="detailEmail">--</p>
+                        </div>
+                        <div>
+                            <span class="label">PHONE NUMBER</span>
+                            <p id="detailPhone">--</p>
+                        </div>
+                        <div>
+                            <span class="label">NOTES</span>
+                            <p id="detailNotes">No additional notes.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <button class="tab-btn active">Overview</button>
+                        <button class="tab-btn">Activity Logs</button>
+                    </div>
+
+                    <div class="card-box tab-content">
+                        <h3 class="card-box-title">Interaction History</h3>
+                        <div class="timeline-list" id="detailInteractionList">
+                            <p class="subtext">No logged interactions for this customer yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================================================================
+                 VIEW 4: INTERACTIONS HISTORY VIEW
+                 =================================================================== -->
+            <div class="dash-view" id="interactionsView">
+                <div class="action-header">
+                    <div>
+                        <h2 class="section-heading">Interactions Log</h2>
+                        <p class="subtext">Timeline of logged phone calls, emails, and notes.</p>
+                    </div>
+                    <button class="btn-primary" onclick="openModal('addInteractionModal')">+ Record Interaction</button>
+                </div>
+
+                <div class="card-box">
+                    <div class="table-responsive">
+                        <table class="crm-data-table">
+                            <thead>
+                                <tr>
+                                    <th>CUSTOMER</th>
+                                    <th>TYPE</th>
+                                    <th>DATE & TIME</th>
+                                    <th>SUMMARY</th>
+                                </tr>
+                            </thead>
+                            <tbody id="interactionsTableBody">
+                                <!-- Dynamic Interaction Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="empty-state-mini" id="interactionsEmpty">
+                        <p class="subtext">No interactions recorded. Click "+ Record Interaction" to log activity.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================================================================
+                 VIEW 5: REPORTS VIEW
+                 =================================================================== -->
+            <div class="dash-view" id="reportsView">
+                <div class="action-header">
+                    <h2 class="section-heading">Reports & Analytics</h2>
+                </div>
+                <div class="card-box">
+                    <p class="subtext">Pipeline reports will populate dynamically as customer interactions increase.</p>
+                </div>
+            </div>
+
+            <!-- ===================================================================
+                 VIEW 6: SETTINGS VIEW
+                 =================================================================== -->
+            <div class="dash-view" id="settingsView">
+                <div class="action-header">
+                    <h2 class="section-heading">Settings</h2>
+                </div>
+                <div class="card-box">
+                    <p class="subtext">User account preferences and backend endpoint settings.</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+
+    <!-- ==========================================
+         MODALS (ADD CUSTOMER, LOG INTERACTION, CREATE FOLLOW-UP)
+         ========================================== -->
+    <div class="modal-overlay" id="addCustomerModal">
+        <div class="modal-box">
+            <a href="#" class="modal-close" onclick="closeModal('addCustomerModal')">&times;</a>
+            <h2 class="modal-title">Add New Customer</h2>
+            <form class="modal-form" onsubmit="handleCustomerSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label">Full Name *</label>
+                    <input type="text" id="custInputName" class="form-input" placeholder="e.g. Jane Doe" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address *</label>
+                    <input type="email" id="custInputEmail" class="form-input" placeholder="jane@company.com" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" id="custInputPhone" class="form-input" placeholder="+1 (555) 000-0000">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Company Name</label>
+                        <input type="text" id="custInputCompany" class="form-input" placeholder="Acme Corp">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Lead Status</label>
+                    <select id="custInputStatus" class="form-input">
+                        <option value="QUALIFIED">QUALIFIED</option>
+                        <option value="NEGOTIATION">NEGOTIATION</option>
+                        <option value="CONTACTED">CONTACTED</option>
+                        <option value="PENDING">PENDING</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <textarea id="custInputNotes" class="form-input" rows="2" placeholder="Customer background..."></textarea>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Save Customer Record</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="addInteractionModal">
+        <div class="modal-box">
+            <a href="#" class="modal-close" onclick="closeModal('addInteractionModal')">&times;</a>
+            <h2 class="modal-title">Record Interaction</h2>
+            <form class="modal-form" onsubmit="handleInteractionSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label">Customer *</label>
+                    <select id="interactCustSelect" class="form-input" required>
+                        <option value="">-- Select Customer --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Interaction Type *</label>
+                    <select id="interactTypeSelect" class="form-input" required>
+                        <option value="Phone Call">Phone Call</option>
+                        <option value="Video Call">Video Call</option>
+                        <option value="Email">Email</option>
+                        <option value="Meeting">Meeting</option>
+                        <option value="Note">Note</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes / Details *</label>
+                    <textarea id="interactNotesInput" class="form-input" rows="3" placeholder="Summary of discussion..." required></textarea>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Log Activity</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="addFollowUpModal">
+        <div class="modal-box">
+            <a href="#" class="modal-close" onclick="closeModal('addFollowUpModal')">&times;</a>
+            <h2 class="modal-title">Create Follow-Up Task</h2>
+            <form class="modal-form" onsubmit="handleFollowupSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label">Customer *</label>
+                    <select id="followCustSelect" class="form-input" required>
+                        <option value="">-- Select Customer --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Task Title *</label>
+                    <input type="text" id="followTitleInput" class="form-input" placeholder="e.g. Send proposal document" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Due Date *</label>
+                    <input type="date" id="followDateInput" class="form-input" required>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Create Task</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Flow 5: Edit Customer Modal -->
+    <div class="modal-overlay" id="editCustomerModal">
+        <div class="modal-box">
+            <a href="#" class="modal-close" onclick="closeModal('editCustomerModal')">&times;</a>
+            <h2 class="modal-title">Edit Customer Record</h2>
+            <form class="modal-form" onsubmit="handleCustomerEditSubmit(event)">
+                <input type="hidden" id="editCustIndex">
+                <div class="form-group">
+                    <label class="form-label">Full Name *</label>
+                    <input type="text" id="editCustName" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address *</label>
+                    <input type="email" id="editCustEmail" class="form-input" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" id="editCustPhone" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Company Name</label>
+                        <input type="text" id="editCustCompany" class="form-input">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Lead Status</label>
+                    <select id="editCustStatus" class="form-input">
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="QUALIFIED">QUALIFIED</option>
+                        <option value="NEGOTIATION">NEGOTIATION</option>
+                        <option value="CONTACTED">CONTACTED</option>
+                        <option value="PENDING">PENDING</option>
+                        <option value="INACTIVE">INACTIVE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <textarea id="editCustNotes" class="form-input" rows="2"></textarea>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Flow 6: In-App Confirmation Dialog (Zero Native Browser Alerts) -->
+    <div class="modal-overlay" id="confirmDeleteModal">
+        <div class="modal-box confirm-modal-box">
+            <div class="confirm-warning-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+            </div>
+            <h2 class="confirm-title">Confirm Deletion?</h2>
+            <p class="confirm-text">
+                Are you sure you want to delete <strong id="deleteTargetName">this customer</strong>? This action will permanently remove their records from the directory and cannot be undone.
+            </p>
+            <div class="confirm-actions">
+                <button type="button" class="btn-secondary" onclick="closeConfirmDelete()">Cancel</button>
+                <button type="button" class="btn-delete" id="confirmDeleteBtn" onclick="executeDeleteCustomer()">Delete Customer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Design System 05: Toast Notification Feedback Banner -->
+    <div id="toastNotification" class="toast-notification" role="status" aria-live="polite">
+        <div class="toast-icon-box" id="toastIcon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="toast-text-box">
+            <div class="toast-title" id="toastTitle">Record Updated</div>
+            <div class="toast-message" id="toastMessage">Changes were saved successfully</div>
+        </div>
+    </div>
+
+
+    <!-- =========================================================================
+         LIVE DYNAMIC INTERACTION ENGINE & BACKEND DEVELOPER INTEGRATION HOOKS
+         ========================================================================= -->
+    <script>
+        // Clean State Arrays (Populated via user interactions or backend API)
+        let customers = [];
+        let interactions = [];
+        let followups = [];
+        let currentCustomerIndex = null;
+        let pendingDeleteIndex = null;
+        let toastTimeout = null;
+
+        // Mobile Sidebar Navigation Toggle
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('dashSidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            if (sidebar && backdrop) {
+                sidebar.classList.toggle('mobile-open');
+                backdrop.classList.toggle('active');
+            }
+        }
+
+        // SPA View Switching
+        function switchView(viewId, menuItem) {
+            const views = document.querySelectorAll('.dash-view');
+            views.forEach(v => v.classList.remove('active'));
+
+            const targetView = document.getElementById(viewId);
+            if (targetView) targetView.classList.add('active');
+
+            if (menuItem) {
+                const menuItems = document.querySelectorAll('.sidebar-menu .menu-item');
+                menuItems.forEach(item => item.classList.remove('active'));
+                menuItem.classList.add('active');
+            }
+
+            // Auto-close mobile drawer on view selection
+            const sidebar = document.getElementById('dashSidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            if (sidebar && backdrop) {
+                sidebar.classList.remove('mobile-open');
+                backdrop.classList.remove('active');
+            }
+
+            const pageTitle = document.getElementById('pageTitle');
+            if (pageTitle) {
+                if (viewId === 'dashboardView') pageTitle.textContent = 'Dashboard Overview';
+                if (viewId === 'customersView') pageTitle.textContent = 'Customer Directory';
+                if (viewId === 'customerDetailsView') pageTitle.textContent = 'Customer Details';
+                if (viewId === 'interactionsView') pageTitle.textContent = 'Interactions Log';
+                if (viewId === 'reportsView') pageTitle.textContent = 'Reports & Analytics';
+                if (viewId === 'settingsView') pageTitle.textContent = 'System Settings';
+            }
+        }
+
+        // Design System 05: Toast Feedback Component (Success, Danger, Info)
+        function showToast(title, message, variant = 'success') {
+            const toast = document.getElementById('toastNotification');
+            const iconBox = document.getElementById('toastIcon');
+            const titleEl = document.getElementById('toastTitle');
+            const messageEl = document.getElementById('toastMessage');
+
+            titleEl.textContent = title;
+            messageEl.textContent = message;
+
+            toast.classList.remove('toast-danger', 'toast-info');
+            if (variant === 'danger') {
+                toast.classList.add('toast-danger');
+                iconBox.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+            } else if (variant === 'info') {
+                toast.classList.add('toast-info');
+                iconBox.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+            } else {
+                iconBox.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+            }
+
+            toast.classList.add('show');
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        function openModal(id) {
+            updateCustomerDropdowns();
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function openModalForCurrentCustomer(modalId) {
+            openModal(modalId);
+            if (currentCustomerIndex !== null) {
+                const interactSelect = document.getElementById('interactCustSelect');
+                const followSelect = document.getElementById('followCustSelect');
+                if (modalId === 'addInteractionModal' && interactSelect) {
+                    interactSelect.value = currentCustomerIndex;
+                }
+                if (modalId === 'addFollowUpModal' && followSelect) {
+                    followSelect.value = currentCustomerIndex;
+                }
+            }
+        }
+
+        // Update select options when logging interactions or tasks
+        function updateCustomerDropdowns() {
+            const interactSelect = document.getElementById('interactCustSelect');
+            const followSelect = document.getElementById('followCustSelect');
+            
+            let optionsHTML = '<option value="">-- Select Customer --</option>';
+            customers.forEach((c, idx) => {
+                optionsHTML += `<option value="${idx}">${c.name} (${c.company || 'N/A'})</option>`;
+            });
+
+            if (interactSelect) interactSelect.innerHTML = optionsHTML;
+            if (followSelect) followSelect.innerHTML = optionsHTML;
+        }
+
+        // 1. ADD CUSTOMER EVENT
+        function handleCustomerSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('custInputName').value.trim();
+            const email = document.getElementById('custInputEmail').value.trim();
+            const phone = document.getElementById('custInputPhone').value.trim();
+            const company = document.getElementById('custInputCompany').value.trim();
+            const status = document.getElementById('custInputStatus').value;
+            const notes = document.getElementById('custInputNotes').value.trim();
+
+            const newCustomer = { name, email, phone, company, status, notes, added: new Date().toLocaleDateString() };
+            customers.push(newCustomer);
+
+            renderCustomers();
+            updateKPIs();
+            showToast('Customer Added', `${name} successfully added to database.`);
+            closeModal('addCustomerModal');
+            e.target.reset();
+        }
+
+        // FLOW 5: EDIT CUSTOMER
+        function openEditCustomer(idx) {
+            const c = customers[idx];
+            if (!c) return;
+            document.getElementById('editCustIndex').value = idx;
+            document.getElementById('editCustName').value = c.name;
+            document.getElementById('editCustEmail').value = c.email;
+            document.getElementById('editCustPhone').value = c.phone || '';
+            document.getElementById('editCustCompany').value = c.company || '';
+            document.getElementById('editCustStatus').value = c.status || 'ACTIVE';
+            document.getElementById('editCustNotes').value = c.notes || '';
+            document.getElementById('editCustomerModal').style.display = 'flex';
+        }
+
+        function editCurrentCustomer() {
+            if (currentCustomerIndex !== null && customers[currentCustomerIndex]) {
+                openEditCustomer(currentCustomerIndex);
+            }
+        }
+
+        function handleCustomerEditSubmit(e) {
+            e.preventDefault();
+            const idx = parseInt(document.getElementById('editCustIndex').value, 10);
+            if (isNaN(idx) || !customers[idx]) return;
+
+            customers[idx].name = document.getElementById('editCustName').value.trim();
+            customers[idx].email = document.getElementById('editCustEmail').value.trim();
+            customers[idx].phone = document.getElementById('editCustPhone').value.trim();
+            customers[idx].company = document.getElementById('editCustCompany').value.trim();
+            customers[idx].status = document.getElementById('editCustStatus').value;
+            customers[idx].notes = document.getElementById('editCustNotes').value.trim();
+
+            renderCustomers();
+            if (currentCustomerIndex === idx) {
+                viewCustomer(idx);
+            }
+            closeModal('editCustomerModal');
+            showToast('Record Updated', 'Changes were saved successfully.');
+        }
+
+        // FLOW 6: IN-APP CONFIRMATION DELETE (Zero Browser Popups)
+        function promptDeleteCustomer(idx) {
+            if (idx < 0 || idx >= customers.length) return;
+            pendingDeleteIndex = idx;
+            document.getElementById('deleteTargetName').textContent = customers[idx].name;
+            document.getElementById('confirmDeleteModal').style.display = 'flex';
+        }
+
+        function closeConfirmDelete() {
+            pendingDeleteIndex = null;
+            document.getElementById('confirmDeleteModal').style.display = 'none';
+        }
+
+        function executeDeleteCustomer() {
+            if (pendingDeleteIndex === null || !customers[pendingDeleteIndex]) {
+                closeConfirmDelete();
+                return;
+            }
+            const deletedName = customers[pendingDeleteIndex].name;
+            customers.splice(pendingDeleteIndex, 1);
+            closeConfirmDelete();
+
+            renderCustomers();
+            updateKPIs();
+
+            // If viewing profile of deleted customer, return to directory
+            if (currentCustomerIndex === pendingDeleteIndex) {
+                currentCustomerIndex = null;
+                switchView('customersView');
+            } else if (currentCustomerIndex > pendingDeleteIndex) {
+                currentCustomerIndex--;
+            }
+
+            showToast('Record Deleted', `${deletedName} was removed from the database.`, 'danger');
+        }
+
+        // Render Customers Table & Empty State
+        function renderCustomers() {
+            const tableBody = document.getElementById('customersTableRows');
+            const emptyBox = document.getElementById('emptyStateBox');
+            
+            if (customers.length === 0) {
+                tableBody.innerHTML = '';
+                emptyBox.style.display = 'block';
+                return;
+            }
+
+            emptyBox.style.display = 'none';
+            let rowsHTML = '';
+            customers.forEach((c, idx) => {
+                const initials = c.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0,2);
+                let badgeClass = 'badge-active';
+                if (c.status === 'INACTIVE') badgeClass = 'badge-inactive';
+                else if (c.status === 'PENDING') badgeClass = 'badge-pending';
+                else if (c.status === 'COMPLETED') badgeClass = 'badge-completed';
+
+                rowsHTML += `
+                    <tr>
+                        <td>
+                            <div class="table-user-cell">
+                                <div class="avatar-circle avatar-blue">${initials}</div>
+                                <div>
+                                    <strong>${c.name}</strong>
+                                    <span class="subtext">${c.email}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${c.company || 'N/A'}</td>
+                        <td><span class="badge ${badgeClass}">${c.status}</span></td>
+                        <td>${c.phone || c.email}</td>
+                        <td>
+                            <div class="action-buttons-cell">
+                                <button class="btn-sm btn-ghost" onclick="viewCustomer(${idx})">View Profile</button>
+                                <button class="btn-sm btn-secondary" onclick="openEditCustomer(${idx})">Edit</button>
+                                <button class="btn-sm btn-delete" onclick="promptDeleteCustomer(${idx})">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            tableBody.innerHTML = rowsHTML;
+        }
+
+        function viewCustomer(idx) {
+            const c = customers[idx];
+            if (!c) return;
+            currentCustomerIndex = idx;
+
+            const initials = c.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0,2);
+            document.getElementById('detailAvatar').textContent = initials;
+            document.getElementById('detailName').textContent = c.name;
+            document.getElementById('detailCompany').textContent = c.company || 'N/A';
+            document.getElementById('detailEmail').textContent = c.email;
+            document.getElementById('detailPhone').textContent = c.phone || 'N/A';
+            document.getElementById('detailNotes').textContent = c.notes || 'No notes provided.';
+            document.getElementById('breadcrumbCustomer').textContent = c.name.toUpperCase();
+
+            const statusEl = document.getElementById('detailStatus');
+            if (statusEl) {
+                statusEl.textContent = c.status;
+                statusEl.className = 'badge ' + (c.status === 'INACTIVE' ? 'badge-inactive' : (c.status === 'PENDING' ? 'badge-pending' : 'badge-active'));
+            }
+
+            // Populate customer-specific interaction history
+            const histList = document.getElementById('detailInteractionList');
+            const custInteractions = interactions.filter(it => it.customerName === c.name);
+            if (custInteractions.length === 0) {
+                histList.innerHTML = '<p class="subtext">No logged interactions for this customer yet.</p>';
+            } else {
+                let histHTML = '';
+                custInteractions.forEach(it => {
+                    histHTML += `
+                        <div class="timeline-item" style="padding: 10px 0; border-bottom: 1px solid var(--color-border-subtle);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                <span class="badge badge-blue">${it.type}</span>
+                                <span class="subtext">${it.time}</span>
+                            </div>
+                            <p style="font-size: 0.875rem; color: var(--color-text-body);">${it.notes}</p>
+                        </div>
+                    `;
+                });
+                histList.innerHTML = histHTML;
+            }
+
+            switchView('customerDetailsView');
+        }
+
+        // FLOW 7: LOG INTERACTION EVENT
+        function handleInteractionSubmit(e) {
+            e.preventDefault();
+            const custIdx = document.getElementById('interactCustSelect').value;
+            const type = document.getElementById('interactTypeSelect').value;
+            const notes = document.getElementById('interactNotesInput').value.trim();
+
+            const custName = customers[custIdx] ? customers[custIdx].name : 'Customer';
+            const newInteraction = { customerName: custName, type, notes, time: 'Just now' };
+            interactions.push(newInteraction);
+
+            renderInteractions();
+            updateKPIs();
+            if (currentCustomerIndex !== null && customers[currentCustomerIndex].name === custName) {
+                viewCustomer(currentCustomerIndex);
+            }
+            showToast('Saved to History', `Activity recorded for ${custName}.`);
+            closeModal('addInteractionModal');
+            e.target.reset();
+        }
+
+        function renderInteractions() {
+            const tbody = document.getElementById('interactionsTableBody');
+            const dashTbody = document.getElementById('dashInteractionsTableBody');
+            const emptyMsg = document.getElementById('interactionsEmpty');
+            const dashEmpty = document.getElementById('dashInteractionsEmpty');
+
+            if (interactions.length === 0) {
+                if (emptyMsg) emptyMsg.style.display = 'block';
+                if (dashEmpty) dashEmpty.style.display = 'block';
+                tbody.innerHTML = '';
+                dashTbody.innerHTML = '';
+                return;
+            }
+
+            if (emptyMsg) emptyMsg.style.display = 'none';
+            if (dashEmpty) dashEmpty.style.display = 'none';
+
+            let rowsHTML = '';
+            interactions.forEach(item => {
+                rowsHTML += `
+                    <tr>
+                        <td><strong>${item.customerName}</strong></td>
+                        <td><span class="badge badge-blue">${item.type}</span></td>
+                        <td>${item.time}</td>
+                        <td>${item.notes}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = rowsHTML;
+            dashTbody.innerHTML = rowsHTML;
+        }
+
+        // FLOW 8: CREATE FOLLOW-UP EVENT
+        function handleFollowupSubmit(e) {
+            e.preventDefault();
+            const custIdx = document.getElementById('followCustSelect').value;
+            const title = document.getElementById('followTitleInput').value.trim();
+            const dueDate = document.getElementById('followDateInput').value;
+
+            const custName = customers[custIdx] ? customers[custIdx].name : 'Client';
+            const newFollowup = { title, client: custName, dueDate, status: 'PENDING' };
+            followups.push(newFollowup);
+
+            renderFollowups();
+            updateKPIs();
+            showToast('Task Created', `Follow-up set for ${custName}.`);
+            closeModal('addFollowUpModal');
+            e.target.reset();
+        }
+
+        // FLOW 9: COMPLETE FOLLOW-UP
+        function completeFollowup(idx) {
+            if (!followups[idx]) return;
+            followups[idx].status = 'COMPLETED';
+            renderFollowups();
+            updateKPIs();
+            showToast('Status: Completed', `Task "${followups[idx].title}" marked as complete.`);
+        }
+
+        function renderFollowups() {
+            const list = document.getElementById('dashFollowupsList');
+            const empty = document.getElementById('dashFollowupsEmpty');
+
+            if (followups.length === 0) {
+                empty.style.display = 'block';
+                list.innerHTML = '';
+                return;
+            }
+
+            empty.style.display = 'none';
+            let html = '';
+            followups.forEach((f, idx) => {
+                const isPending = f.status === 'PENDING';
+                const statusBadge = isPending 
+                    ? `<span class="badge badge-pending">⌛ PENDING</span>` 
+                    : `<span class="badge badge-completed">✓ COMPLETED</span>`;
+
+                const actionBtn = isPending
+                    ? `<button class="btn-sm btn-ghost" onclick="completeFollowup(${idx})" title="Mark task as complete">✓ Mark Done</button>`
+                    : `<span class="subtext" style="color: var(--color-success-green); font-weight: 600;">Finished</span>`;
+
+                html += `
+                    <div class="followup-card" style="padding: 12px; border-bottom: 1px solid var(--color-border-subtle); margin-bottom: 10px;">
+                        <div class="followup-card-top" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                            <div>
+                                <strong style="display: block; font-size: 0.9rem;">${f.title}</strong>
+                                <span class="subtext">Client: ${f.client} &bull; Due: ${f.dueDate}</span>
+                            </div>
+                            <div>
+                                ${statusBadge}
+                            </div>
+                        </div>
+                        <div style="margin-top: 8px; text-align: right;">
+                            ${actionBtn}
+                        </div>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        function updateKPIs() {
+            document.getElementById('dashTotalCustomers').textContent = customers.length;
+            const pendingCount = followups.filter(f => f.status === 'PENDING').length;
+            document.getElementById('dashFollowupsCount').textContent = pendingCount;
+            document.getElementById('dashInteractionsCount').textContent = interactions.length;
+        }
+
+        /* =========================================================================
+           BACKEND DEVELOPER INTEGRATION HOOKS (RESTful API Endpoints)
+           =========================================================================
+           Connect your live backend server by uncommenting the endpoints below:
+
+           // 1. GET /api/customers - Load customer directory
+           // async function fetchCustomersFromAPI() {
+           //     const response = await fetch('/api/customers');
+           //     customers = await response.json();
+           //     renderCustomers();
+           //     updateKPIs();
+           // }
+
+           // 2. POST /api/customers - Create new customer
+           // async function createCustomerOnAPI(payload) {
+           //     const response = await fetch('/api/customers', {
+           //         method: 'POST',
+           //         headers: { 'Content-Type': 'application/json' },
+           //         body: JSON.stringify(payload)
+           //     });
+           //     return await response.json();
+           // }
+
+           // 3. PUT /api/customers/:id - Flow 5: Edit existing customer
+           // async function updateCustomerOnAPI(id, payload) {
+           //     const response = await fetch(`/api/customers/${id}`, {
+           //         method: 'PUT',
+           //         headers: { 'Content-Type': 'application/json' },
+           //         body: JSON.stringify(payload)
+           //     });
+           //     return await response.json();
+           // }
+
+           // 4. DELETE /api/customers/:id - Flow 6: Delete customer
+           // async function deleteCustomerFromAPI(id) {
+           //     const response = await fetch(`/api/customers/${id}`, { method: 'DELETE' });
+           //     return await response.json();
+           // }
+
+           // 5. POST /api/interactions - Flow 7: Log interaction
+           // async function logInteractionOnAPI(payload) {
+           //     const response = await fetch('/api/interactions', {
+           //         method: 'POST',
+           //         headers: { 'Content-Type': 'application/json' },
+           //         body: JSON.stringify(payload)
+           //     });
+           //     return await response.json();
+           // }
+
+           // 6. POST /api/followups - Flow 8: Create follow-up task
+           // async function createFollowupOnAPI(payload) {
+           //     const response = await fetch('/api/followups', {
+           //         method: 'POST',
+           //         headers: { 'Content-Type': 'application/json' },
+           //         body: JSON.stringify(payload)
+           //     });
+           //     return await response.json();
+           // }
+
+           // 7. PATCH /api/followups/:id/complete - Flow 9: Complete follow-up task
+           // async function completeFollowupOnAPI(id) {
+           //     const response = await fetch(`/api/followups/${id}/complete`, { method: 'PATCH' });
+           //     return await response.json();
+           // }
+           ========================================================================= */
+    </script>
+</body>
+</html>
 
