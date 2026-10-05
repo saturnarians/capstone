@@ -17,12 +17,18 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       # Install dependencies using your specified npm version (10.8.2)
       - name: Install Dependencies
         run: npm ci
+
+      - name: Test Backend
+        run: npm test
+
+      - name: Verify Backend HTTP Flow
+        run: npm run test:smoke
 
       # Turborepo handles building both apps/web and apps/api automatically
       - name: Build Monorepo (Turborepo)

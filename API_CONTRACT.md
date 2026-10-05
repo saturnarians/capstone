@@ -34,25 +34,22 @@ Frontend implementation should not invent API behavior, and backend implementati
 ## 2. Resource Model
 
 ```text
-User
- │
- └── Customer
-      │
-      ├── Interaction
-      │
-      └── Follow-up
-```
-
-Ownership hierarchy:
-
-```text
-User
+Company CRM
+ ├── ADMIN users
+ ├── STAFF users
  └── Customers
       ├── Interactions
       └── Follow-ups
 ```
 
-A user can only access resources belonging to their account.
+This CRM serves one company. All active ADMIN and STAFF users access the same
+customer, interaction, follow-up, and dashboard data. There are no businesses,
+workspaces, organizations, tenant identifiers, or per-user-owned CRM records.
+
+Authorization is role-based:
+
+- `ADMIN` has full CRM access and manages staff accounts.
+- `STAFF` can view, create, and edit CRM data and complete follow-ups, but cannot delete CRM data or manage staff.
 
 ---
 
@@ -213,6 +210,8 @@ Create a new CRM user.
 - Required
 - Must satisfy the backend password policy
 
+Public registration creates an active `ADMIN` account.
+
 ### Success
 
 **201 Created**
@@ -223,7 +222,8 @@ Create a new CRM user.
     "user": {
       "id": "user-uuid",
       "name": "Israel Ayinde",
-      "email": "israel@example.com"
+      "email": "israel@example.com",
+      "role": "ADMIN"
     },
     "accessToken": "jwt-token",
     "refreshToken": "refresh-token"
@@ -256,7 +256,8 @@ Authenticate an existing user.
     "user": {
       "id": "user-uuid",
       "name": "Israel Ayinde",
-      "email": "israel@example.com"
+      "email": "israel@example.com",
+      "role": "ADMIN"
     },
     "accessToken": "jwt-token",
     "refreshToken": "refresh-token"
@@ -326,7 +327,8 @@ Return the authenticated user's basic profile.
   "data": {
     "id": "user-uuid",
     "name": "Israel Ayinde",
-    "email": "israel@example.com"
+    "email": "israel@example.com",
+    "role": "ADMIN"
   }
 }
 ```
@@ -335,11 +337,62 @@ Never return password hashes.
 
 ---
 
+## Staff API (ADMIN only)
+
+Staff accounts are company users. They do not own a separate CRM dataset.
+
+### GET `/staff`
+
+Return staff members. Query parameters: `page`, `limit`, and optional
+`status=ACTIVE|INACTIVE`.
+
+### POST `/staff`
+
+Create a staff account.
+
+```json
+{
+  "name": "Ada Agent",
+  "email": "ada@example.com",
+  "password": "SecurePassword123!"
+}
+```
+
+The server always assigns `STAFF`; the client cannot choose a role.
+
+### GET `/staff/:id`
+
+Return one staff member.
+
+### PATCH `/staff/:id`
+
+Update staff `name`, `email`, and/or `status` (`ACTIVE` or `INACTIVE`).
+Setting `INACTIVE` immediately revokes that staff member's sessions. An admin may
+reactivate a member by setting `ACTIVE`.
+
+### DELETE `/staff/:id`
+
+Deactivate a staff account and revoke its sessions. This is a 204 response and
+does not permanently delete the account.
+
+Staff management attempts by a `STAFF` user return:
+
+```json
+{
+  "error": {
+    "code": "ADMIN_REQUIRED",
+    "message": "Administrator access is required."
+  }
+}
+```
+
+---
+
 # 9. Customer API
 
 ## GET `/customers`
 
-Return customers belonging to the authenticated user.
+Return customers in the shared company CRM.
 
 ### Query Parameters
 
@@ -415,7 +468,7 @@ Return one customer.
 }
 ```
 
-The backend must verify ownership.
+Every authenticated active user can view this shared customer.
 
 ---
 
@@ -575,15 +628,7 @@ limit
 
 Return one interaction.
 
-Ownership must be verified through:
-
-```text
-Interaction
-    ↓
-Customer
-    ↓
-User
-```
+Every authenticated active user can view interactions in the shared company CRM.
 
 ---
 
@@ -719,15 +764,7 @@ Return follow-ups belonging to a customer.
 
 Return one follow-up.
 
-Ownership must be verified through:
-
-```text
-Follow-up
-    ↓
-Customer
-    ↓
-User
-```
+Every authenticated active user can view follow-ups in the shared company CRM.
 
 ---
 
@@ -901,7 +938,7 @@ Return the information required by the Dashboard Overview.
 
 ### `totalCustomers`
 
-Count of customer records owned by the authenticated user.
+Count of all customer records in the shared company CRM.
 
 ### `pendingFollowUps`
 
@@ -1082,22 +1119,10 @@ A no-result search is not an API error.
 
 # 18. Authorization
 
-If a user attempts to access another user's resource, the API should not reveal ownership.
-
-Recommended response:
-
-**404 Not Found**
-
-```json
-{
-  "error": {
-    "code": "RESOURCE_NOT_FOUND",
-    "message": "Resource not found."
-  }
-}
-```
-
-This prevents resource enumeration through predictable authorization responses.
+CRM data is shared by every active company user. Authorization depends on role,
+not ownership. A `STAFF` user who attempts an ADMIN-only endpoint, including
+staff management or CRM deletion, receives **403 Forbidden** with
+`ADMIN_REQUIRED`.
 
 ---
 
@@ -1112,6 +1137,8 @@ id
 name
 email
 password_hash
+role (ADMIN | STAFF)
+is_active
 created_at
 updated_at
 
@@ -1119,7 +1146,6 @@ updated_at
 customers
 ---------
 id
-user_id
 name
 email
 phone
@@ -1162,10 +1188,6 @@ If status is persisted for performance, it must never be independently editable 
 # 20. Database Relationships
 
 ```text
-users
-  │
-  │ 1:N
-  ▼
 customers
   │
   ├──── 1:N ──── interactions
@@ -1176,9 +1198,6 @@ customers
 Foreign keys:
 
 ```text
-customers.user_id
-    → users.id
-
 interactions.customer_id
     → customers.id
 
@@ -1268,7 +1287,7 @@ Responsible for:
 - Authorization
 - Validation
 - Data persistence
-- Ownership
+- Role-based access
 - Business rules
 - Follow-up status calculation
 - Search
@@ -1438,13 +1457,20 @@ The API is ready for frontend integration when:
 - Protected routes reject unauthenticated requests.
 - Invalid credentials return safe errors.
 
+### Staff and roles
+
+- Public registration creates an ADMIN.
+- ADMIN can manage STAFF accounts and delete CRM records.
+- STAFF accounts can perform operational CRM work but cannot delete CRM records or manage staff.
+- Deactivated staff sessions are revoked.
+
 ### Customers
 
 - CRUD works.
 - Search works.
 - Pagination works.
 - Validation works.
-- Ownership is enforced.
+- Shared CRM access and ADMIN-only deletion are enforced.
 - Delete behavior is transactional.
 
 ### Interactions
@@ -1452,14 +1478,14 @@ The API is ready for frontend integration when:
 - CRUD works.
 - Allowed types are enforced.
 - Customer association works.
-- Ownership is enforced.
+- Shared CRM access and ADMIN-only deletion are enforced.
 
 ### Follow-ups
 
 - CRUD works.
 - Completion works.
 - Pending/overdue/completed state is derived correctly.
-- Ownership is enforced.
+- Shared CRM access and ADMIN-only deletion are enforced.
 
 ### Dashboard
 
@@ -1467,7 +1493,7 @@ The API is ready for frontend integration when:
 - Follow-up count is accurate.
 - Recent interactions are accurate.
 - Upcoming follow-ups are accurate.
-- Data is scoped to the authenticated user.
+- Data is shared by active company users.
 
 ### Security
 
@@ -1508,6 +1534,12 @@ POST   /api/v1/auth/login
 POST   /api/v1/auth/refresh
 POST   /api/v1/auth/logout
 GET    /api/v1/auth/me
+
+GET    /api/v1/staff
+POST   /api/v1/staff
+GET    /api/v1/staff/:id
+PATCH  /api/v1/staff/:id
+DELETE /api/v1/staff/:id
 
 GET    /api/v1/dashboard
 
