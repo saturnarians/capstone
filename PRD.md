@@ -144,13 +144,17 @@ There are two fundamental concepts:
 
 The authenticated person using the CRM.
 
+CRM users have one of two roles:
+
+- `ADMIN`: full CRM access and staff account management.
+- `STAFF`: shared CRM operational access without staff management or CRM deletion.
+
 ### Customer
 
-A business contact managed by the CRM user.
+A business contact in the company's shared CRM.
 
-A CRM user owns their customer records.
-
-Users must never be able to access another user's customer records.
+All active CRM users work in the same company dataset. This MVP does not have
+businesses, workspaces, organizations, tenants, or per-user-owned CRM records.
 
 ---
 
@@ -392,7 +396,7 @@ Recommended MVP behavior:
 
 The confirmation UI must clearly communicate this consequence.
 
-The backend must enforce ownership before deletion.
+The backend must limit deletion to administrators.
 
 ---
 
@@ -516,7 +520,7 @@ The Dashboard contains:
 
 #### Total Customers
 
-Count of customers belonging to the authenticated user.
+Count of customers in the shared company CRM.
 
 #### Pending Follow-ups
 
@@ -685,7 +689,7 @@ The backend must:
 - Never return passwords.
 - Authenticate protected requests.
 - Authorize access to resources.
-- Scope all customer data to authenticated users.
+- Enforce ADMIN/STAFF permissions for the shared company data.
 - Validate request payloads.
 - Validate resource IDs.
 - Protect against unauthorized customer access.
@@ -697,24 +701,21 @@ The frontend communicates with the API and never directly accesses the productio
 
 ---
 
-## 25. Data Ownership
-
-Ownership hierarchy:
+## 25. Shared CRM Access
 
 ```text
-User
+Company CRM
+ ├── ADMIN users
+ ├── STAFF users
  └── Customers
       ├── Interactions
       └── Follow-ups
 ```
 
-Every customer belongs to one authenticated user.
-
-Every interaction belongs to one customer.
-
-Every follow-up belongs to one customer.
-
-Authorization follows this hierarchy.
+Every active user accesses the same customer records. Every interaction and
+follow-up belongs to one customer. Authorization follows the user's role, not
+resource ownership. ADMIN manages staff and performs destructive CRM actions;
+STAFF performs non-destructive operational CRM work.
 
 ---
 
@@ -781,7 +782,7 @@ The MVP should:
 - Follow-up count is accurate.
 - Recent interactions are accurate.
 - Upcoming follow-ups are accurate.
-- Data is scoped to the authenticated user.
+- Data is shared by active company users.
 
 ---
 
@@ -800,7 +801,7 @@ The MVP is complete when:
 ### Customers
 - Full CRUD works.
 - Search works.
-- Ownership is enforced.
+- ADMIN/STAFF permissions are enforced.
 - Validation works.
 - Delete confirmation works.
 
@@ -808,7 +809,7 @@ The MVP is complete when:
 - Full CRUD works.
 - Interaction types are enforced.
 - Customer association works.
-- Ownership is enforced.
+- ADMIN/STAFF permissions are enforced.
 
 ### Follow-ups
 - Create/read/update/delete works.

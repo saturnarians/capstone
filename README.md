@@ -1,5 +1,7 @@
 # Small Business CRM
 
+> Backend setup, environment variables, tests and current implementation details: [apps/api/README.md](apps/api/README.md). The authoritative endpoint reference is [API_CONTRACT.md](API_CONTRACT.md), using `/api/v1`. Older planning examples below are superseded by that contract. The monorepo workspaces remain `apps/api` and `apps/frontend`.
+
 A simple and user-friendly **Customer Relationship Management (CRM)** system designed to help small businesses organize, manage, and maintain their customer relationships from one centralized platform.
 
 Instead of keeping customer information across notebooks, spreadsheets, phone contacts, WhatsApp messages, and other places, the CRM provides one system for managing **customers, interactions, and follow-ups**.
