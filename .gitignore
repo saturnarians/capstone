@@ -5,5 +5,4 @@ node_modules/
 .turbo/
 coverage/
 *.log
-
-.npm-cache/
+*.exe
