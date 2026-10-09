@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npx turbo run build --filter=@repo/frontend",
-  "outputDirectory": "apps/frontend/dist",
+  "buildCommand": "apps/frontend",
+  "outputDirectory": "dist",
   "rewrites": [
     {
       "source": "/(.*)",
