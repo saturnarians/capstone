@@ -1,23 +1,37 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import "./Register.css";
+import './auth.css';
+import { api } from './api.js';
 
-function Register() {
+function Register({ onRegister, onNavigate }) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState({});
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     setError("");
+    setFieldErrors({});
     setMessage("");
 
     if (!fullName || !email || !password) {
+      const errors = {};
+      if (!fullName) errors.name = 'Name is required.';
+      if (!email) errors.email = 'Email is required.';
+      if (!password) errors.password = 'Password is required.';
+      setFieldErrors(errors);
       setError("Please fill in all fields.");
+      return;
+    }
+
+    if (password.length < 8 || new TextEncoder().encode(password).length > 72) {
+      setFieldErrors({ password: 'Password must be at least 8 characters and at most 72 UTF-8 bytes.' });
       return;
     }
 
@@ -26,7 +40,15 @@ function Register() {
       return;
     }
 
-    setMessage("Account creation submitted.");
+    setMessage('Creating your account...');
+    try {
+      const data = await api.register({ name: fullName, email, password });
+      onRegister(data, true);
+    } catch (err) {
+      setMessage('');
+      setError(err.message);
+      setFieldErrors(err.fields || {});
+    }
   }
 
   return (
@@ -105,7 +127,10 @@ function Register() {
                 onChange={(event) =>
                   setFullName(event.target.value)
                 }
+                aria-invalid={Boolean(fieldErrors.name)}
+                aria-describedby={fieldErrors.name ? 'register-name-error' : undefined}
               />
+              {fieldErrors.name && <p id="register-name-error" className="field-error">{fieldErrors.name}</p>}
             </div>
 
             <div className="input-group">
@@ -121,7 +146,10 @@ function Register() {
                 onChange={(event) =>
                   setEmail(event.target.value)
                 }
+                aria-invalid={Boolean(fieldErrors.email)}
+                aria-describedby={fieldErrors.email ? 'register-email-error' : undefined}
               />
+              {fieldErrors.email && <p id="register-email-error" className="field-error">{fieldErrors.email}</p>}
             </div>
 
             <div className="input-group">
@@ -129,15 +157,13 @@ function Register() {
                 Password
               </label>
 
-              <input
-                id="registerPassword"
-                type="password"
-                placeholder="Create a strong password"
-                value={password}
-                onChange={(event) =>
-                  setPassword(event.target.value)
-                }
-              />
+              <div className="password-control">
+                <input id="registerPassword" type={showPassword ? 'text' : 'password'} placeholder="Create a strong password" value={password}
+                  onChange={(event) => setPassword(event.target.value)} aria-invalid={Boolean(fieldErrors.password)} aria-describedby="register-password-help register-password-error" />
+                <button type="button" className="password-toggle" onClick={() => setShowPassword(value => !value)} aria-label={showPassword ? 'Hide password' : 'Show password'} aria-pressed={showPassword}>{showPassword ? <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 3 18 18M10.6 10.7a3 3 0 0 0 4.2 4.2M9.9 4.2A10.8 10.8 0 0 1 12 4c5.5 0 9.5 4.1 10 8-.2 1.4-1 3-2.3 4.3M6.2 6.2C4.3 7.6 2.6 9.8 2 12c.5 3.9 4.5 8 10 8 1.5 0 2.9-.3 4.1-.8" /></svg> : <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M2 12s3.5-8 10-8 10 8 10 8-3.5 8-10 8S2 12 2 12Z" /><circle cx="12" cy="12" r="3" /></svg>}</button>
+              </div>
+              <p id="register-password-help" className="password-help">Minimum 8 characters</p>
+              {fieldErrors.password && <p id="register-password-error" className="field-error">{fieldErrors.password}</p>}
             </div>
 
             <label className="terms-label">
@@ -194,35 +220,9 @@ function Register() {
 
           </form>
 
-          <div className="divider">
-            <span>OR SIGN UP WITH</span>
-          </div>
-
-          <div className="social-buttons">
-
-            <button
-              type="button"
-              className="social-button"
-            >
-              <strong>G</strong>
-              Google
-            </button>
-
-            <button
-              type="button"
-              className="social-button"
-            >
-              <strong>
-                <img src="download.png" width="20"/>
-              </strong>
-              Apple
-            </button>
-
-          </div>
-
           <p className="bottom-text">
             Already have an account?{" "}
-            <Link to="/login">Sign In</Link>
+            <a href="/login" onClick={(e) => { e.preventDefault(); onNavigate('/login'); }}>Sign In</a>
           </p>
 
         </div>
