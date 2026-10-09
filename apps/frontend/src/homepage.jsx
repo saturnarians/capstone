@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './style.css';
 
-export default function HomePage({ onNavigateToDashboard, onNavigateToAbout }) {
+export default function HomePage({ onNavigateToAbout }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeModal, setActiveModal] = useState(null); // 'demo' | 'contact' | null
   const [demoSubmitted, setDemoSubmitted] = useState(false);
@@ -126,21 +126,16 @@ export default function HomePage({ onNavigateToDashboard, onNavigateToAbout }) {
 
             {/* Navigation Action Buttons: Sign In & Start Free Trial */}
             <div className="nav-actions">
-              {/* =================================================================
-                  SIGN IN LINK (Links to collaborator's ./login.jsx)
-                  ================================================================= */}
+              {/* Sign in and registration are client routes. */}
               <a
-                href="./login.jsx"
+                href="/login"
                 className="btn-text"
               >
                 Sign In
               </a>
 
-              {/* =================================================================
-                  START FREE TRIAL LINK (Links to collaborator's ./register.jsx)
-                  ================================================================= */}
               <a
-                href="./register.jsx"
+                href="/register"
                 className="btn-primary"
               >
                 Start Free Trial
@@ -180,11 +175,8 @@ export default function HomePage({ onNavigateToDashboard, onNavigateToAbout }) {
               All in one place. Keep customer information, interactions, and follow-ups organized without relying on scattered notebooks, spreadsheets, phone contacts, or WhatsApp messages.
             </p>
             <div className="hero-buttons">
-              {/* =================================================================
-                  GET STARTED TODAY BUTTON (Links to collaborator's ./register.jsx)
-                  ================================================================= */}
               <a
-                href="./register.jsx"
+                href="/register"
                 className="btn-primary btn-large"
               >
                 Get Started Today
@@ -439,7 +431,7 @@ export default function HomePage({ onNavigateToDashboard, onNavigateToAbout }) {
                 <li>Email Reminders</li>
               </ul>
               <a
-                href="./register.jsx"
+                href="/register"
                 className="btn-secondary"
               >
                 Start Free
@@ -460,7 +452,7 @@ export default function HomePage({ onNavigateToDashboard, onNavigateToAbout }) {
                 <li>Priority Support</li>
               </ul>
               <a
-                href="./register.jsx"
+                href="/register"
                 className="btn-primary"
               >
                 Get Started
@@ -493,7 +485,7 @@ export default function HomePage({ onNavigateToDashboard, onNavigateToAbout }) {
             </p>
             <div className="cta-buttons">
               <a
-                href="./register.jsx"
+                href="/register"
                 className="btn-white"
               >
                 Get Started Free

@@ -1,0 +1,7 @@
+.password-control { position: relative; }
+.password-control input { padding-right: 58px !important; }
+.password-toggle { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); border: 0; background: transparent; color: #29458e; cursor: pointer; padding: 8px; line-height: 0; }.password-toggle svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.password-toggle:focus-visible { outline: 2px solid #29458e; outline-offset: 2px; border-radius: 4px; }
+.field-error { color: #b91c1c; font-size: .75rem; line-height: 1.35; margin: 5px 0 0; }
+.password-help { color: #697282; font-size: .72rem; margin: 5px 0 0; }
+.input-group input[aria-invalid='true'] { border-color: #dc2626; }
