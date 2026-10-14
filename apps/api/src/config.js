@@ -23,7 +23,7 @@ function readConfig(env = process.env) {
   }
   if (!env.MONGODB_URI || !/^mongodb(\+srv)?:\/\//.test(env.MONGODB_URI)) throw new Error('Set MONGODB_URI to a MongoDB replica set URI.');
   if (!env.JWT_SECRET || Buffer.byteLength(env.JWT_SECRET) < 32) throw new Error('Set JWT_SECRET to at least 32 random bytes.');
-  const origins = (env.CORS_ORIGINS || 'http://localhost:5173,https://capstone-nine-pink.vercel.app').split(',').map(s => s.trim());
+  const origins = (env.CORS_ORIGINS || 'http://localhost:5173').split(',').map(s => s.trim());
   if (origins.some(origin => { try { return new URL(origin).origin !== origin; } catch { return true; } })) throw new Error('CORS_ORIGINS must contain comma-separated origins.');
   const mongoDnsServers = (env.MONGODB_DNS_SERVERS || '').split(',').map(s => s.trim()).filter(Boolean);
   if (mongoDnsServers.some(server => net.isIP(server) === 0)) throw new Error('MONGODB_DNS_SERVERS must contain comma-separated IP addresses.');

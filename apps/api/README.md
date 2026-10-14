@@ -39,7 +39,7 @@ Shell variables take precedence over `apps/api/.env`, then the root `.env`. Exis
 | `JWT_ACCESS_TTL_SECONDS` | `900`; 60–86400 |
 | `REFRESH_TOKEN_TTL_DAYS` | `7`; 1–90 |
 | `BCRYPT_ROUNDS` | `12`; 10–15 |
-| `CORS_ORIGINS` | `http://localhost:5173,https://capstone-nine-pink.vercel.app`; comma-separated exact origins |
+| `CORS_ORIGINS` | `http://localhost:5173`; comma-separated exact origins. Add the deployed frontend origin in the API environment. |
 | `AUTH_RATE_LIMIT` | 30 requests per IP per 15 minutes across register/login/refresh |
 | `TRUST_PROXY_HOPS` | `0`; set only for your exact trusted proxy topology |
 | `NODE_ENV` | Set to `production` in deployment |
