@@ -5,6 +5,7 @@ const { rateLimit } = require('express-rate-limit');
 const { createAuth } = require('./auth');
 const { createCrmRouter } = require('./crm');
 const { createStaffRouter } = require('./staff');
+const { createDbConnectRouter } = require('./db_connect');
 const { ApiError, errorHandler } = require('./errors');
 
 function createApp(config, { logger = console } = {}) {
@@ -19,6 +20,7 @@ function createApp(config, { logger = console } = {}) {
   } }));
   app.use(express.json({ limit: '32kb' }));
   app.get('/api/health', (req, res) => res.json({ data: { status: 'OK' } }));
+  app.use('/api/db_connect', createDbConnectRouter({ logger: app.locals.logger }));
   app.use('/api/v1', (req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
   const auth = createAuth(config);
   app.use('/api/v1/auth', rateLimit({

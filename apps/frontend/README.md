@@ -2,6 +2,12 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+## API configuration
+
+Copy `.env.example` to `.env` and set `VITE_API_BASE` to the API base URL, including `/api/v1`. The frontend reads this value when making API requests. Vite embeds `VITE_` variables into the client bundle, so configure the same variable in the Vercel project settings for production builds.
+
+The backend must also allow the frontend's exact origin in its `CORS_ORIGINS` environment variable.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)

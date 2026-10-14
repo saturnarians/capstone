@@ -1,11 +1,13 @@
 const { test, before, after, beforeEach, mock } = require('node:test');
 const assert = require('node:assert/strict');
 const { randomUUID } = require('node:crypto');
+const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const request = require('supertest');
 const { createApp } = require('../src/app');
+const { createDbConnectRouter } = require('../src/db_connect');
 const { connectDatabase } = require('../src/database');
 const { User, Customer, Interaction, FollowUp, AuthSession } = require('../src/models');
 const { UUID } = require('../src/validation');
@@ -296,6 +298,32 @@ test('concurrent customer deletion and child creation never leave orphan records
     assert.equal(deleted.status, 204);
     assert.equal(await Interaction.countDocuments({ customerId: c.id }), 0);
   }
+});
+
+test('database connection endpoint pings MongoDB and reports unavailable states', async () => {
+  await request(app).get('/api/db_connect').expect(200, { data: { status: 'connected' } });
+
+  const disconnected = express();
+  disconnected.use(createDbConnectRouter({
+    connection: { readyState: 0, db: null },
+  }));
+  await request(disconnected).get('/').expect(503, {
+    error: { code: 'DATABASE_UNAVAILABLE', message: 'Database is unavailable.' },
+  });
+
+  const loggedErrors = [];
+  const failingPing = express();
+  failingPing.use(createDbConnectRouter({
+    connection: {
+      readyState: 1,
+      db: { admin: () => ({ command: async () => { throw new Error('private database details'); } }) },
+    },
+    logger: { error: event => loggedErrors.push(event) },
+  }));
+  await request(failingPing).get('/').expect(503, {
+    error: { code: 'DATABASE_UNAVAILABLE', message: 'Database is unavailable.' },
+  });
+  assert.deepEqual(loggedErrors, [{ event: 'database_health_check_failed', name: 'Error' }]);
 });
 
 test('JSON errors, payload limits, CORS, unknown routes and auth rate limits use safe responses', async () => {

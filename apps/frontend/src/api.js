@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_API_BASE || '/api/v1';
+const BASE = import.meta.env.RENDER_API_BASE || '/api/v1';
 const KEYS = ['accessToken', 'refreshToken', 'user'];
 const store = () => localStorage.getItem('refreshToken') ? localStorage : sessionStorage;
 export function getSession() { const s = store(), accessToken = s.getItem('accessToken'), refreshToken = s.getItem('refreshToken'), user = s.getItem('user'); return accessToken && refreshToken ? { accessToken, refreshToken, user: user ? JSON.parse(user) : null } : null; }

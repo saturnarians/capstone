@@ -24,7 +24,7 @@ npm start --workspace @repo/api
 
 To prepare an installed local MongoDB server, create a data directory and run `mongod --replSet rs0 --bind_ip 127.0.0.1 --dbpath <your-data-directory>`. In another terminal run `mongosh --eval "rs.initiate()"`. The example URI then works. Database startup and index creation complete before the API listens.
 
-`GET http://localhost:5000/api/health` returns `{ "data": { "status": "OK" } }`. The API base is `http://localhost:5000/api/v1`. Production must use HTTPS through a trusted reverse proxy.
+`GET http://localhost:5000/api/health` checks that the API process is responding and returns `{ "data": { "status": "OK" } }`. `GET http://localhost:5000/api/db_connect` actively pings MongoDB and returns `{ "data": { "status": "connected" } }` when available, or HTTP 503 when it is not. The API base is `http://localhost:5000/api/v1`. Production must use HTTPS through a trusted reverse proxy.
 
 ## Environment
 
@@ -39,7 +39,7 @@ Shell variables take precedence over `apps/api/.env`, then the root `.env`. Exis
 | `JWT_ACCESS_TTL_SECONDS` | `900`; 60–86400 |
 | `REFRESH_TOKEN_TTL_DAYS` | `7`; 1–90 |
 | `BCRYPT_ROUNDS` | `12`; 10–15 |
-| `CORS_ORIGINS` | `http://localhost:5173`; comma-separated exact origins |
+| `CORS_ORIGINS` | `http://localhost:5173`; comma-separated exact origins. Add the deployed frontend origin in the API environment. |
 | `AUTH_RATE_LIMIT` | 30 requests per IP per 15 minutes across register/login/refresh |
 | `TRUST_PROXY_HOPS` | `0`; set only for your exact trusted proxy topology |
 | `NODE_ENV` | Set to `production` in deployment |
