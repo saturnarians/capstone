@@ -8,6 +8,7 @@ test('configuration fails safely on absent secrets and invalid bounds', () => {
   assert.throws(() => readConfig({}), /MONGODB_URI/);
   const env = { MONGODB_URI: 'mongodb://127.0.0.1/test', JWT_SECRET: 'x'.repeat(48) };
   assert.equal(readConfig(env).port, 5000);
+  assert.deepEqual(readConfig(env).origins, ['http://localhost:5173', 'https://capstone-nine-pink.vercel.app']);
   assert.deepEqual(readConfig({ ...env, MONGODB_DNS_SERVERS: '1.1.1.1, 8.8.8.8' }).mongoDnsServers, ['1.1.1.1', '8.8.8.8']);
   for (const value of [{ JWT_SECRET: '' }, { PORT: 'abc' }, { BCRYPT_ROUNDS: '4' }, { CORS_ORIGINS: '*' }, { JWT_ACCESS_TTL_SECONDS: '-1' }, { MONGODB_DNS_SERVERS: 'dns.example.com' }]) assert.throws(() => readConfig({ ...env, ...value }));
 });
